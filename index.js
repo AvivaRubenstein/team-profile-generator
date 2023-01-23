@@ -100,16 +100,19 @@ function init() {
             //which again allows them to choose whether to add more employees or be done
             if (answers.menu !== "I am finished building my team") {
                 // console.log(answers);
-                var addedAnswers = restartFromMenu(questions);
-                finalAnswers.push(addedAnswers);
-                console.log(answers);
+                finalAnswers.push(answers);
+                restartFromMenu(questions);
+                
+                console.log(finalAnswers);
 
             }
             else {
                 // console.log(answers);
                 finalAnswers.push(answers);
-                return finalAnswers;
+                
             }
+                console.log(finalAnswers);
+                return finalAnswers;
 
         });
 }
