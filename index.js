@@ -103,7 +103,7 @@ function init() {
                 finalAnswers.push(answers);
                 restartFromMenu(questions);
                 
-                console.log(finalAnswers);
+                //console.log(finalAnswers);
 
             }
             else {
@@ -111,25 +111,26 @@ function init() {
                 finalAnswers.push(answers);
                 
             }
-                console.log(finalAnswers);
+                //console.log(finalAnswers);
                 return finalAnswers;
 
         });
 }
 
 function restartFromMenu(questions) {
-    
+    //we are slicing the questions array, and only re-prompting the user starting from the menu question and forward
     const startMenu = questions.slice(4);
-
     inquirer.prompt(startMenu)
         .then((answers) => {
             if (answers.menu !== "I am finished building my team") {
+                //this is a recursive function--- it calls itself to run again and re-prompt the user starting from the menu
+                //as long as the person has not answered that they are finished
                 var restartAnswers = restartFromMenu(questions);
                 finalAnswers.push(restartAnswers);
 
             }
             else {
-                //TODO: fix, only questions.menu is being output in console
+                //if after we re-prompt the user they decide that they are done entering their team, then we close the restart function
                 // console.log(answers);
                 finalAnswers.push(answers);
                 return;
