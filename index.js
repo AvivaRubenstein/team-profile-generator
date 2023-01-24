@@ -24,7 +24,7 @@ const managerQuestions = [
         type: 'input',
         message: "What is the team manager's office number?",
         name: 'managerOffice',
-    } ];
+    }];
 
 const employeeQuestions = [
     {
@@ -92,31 +92,31 @@ const employeeQuestions = [
 // function writeToHtml(data){
 //     fs.writeFile("index.html", data, () => console.log("HTML successfully generated!"));
 // }
-var finalAnswers =[];
+var finalAnswers = [];
 function init() {
     inquirer.prompt(managerQuestions)
         .then((answers) => {
             finalAnswers.push(answers);
             addMoreEmployees(employeeQuestions);
-}); }
+        });
+}
 
-function addMoreEmployees (employeeQuestions) {
+function addMoreEmployees(employeeQuestions) {
     //we are only re-prompting the user starting from the menu question and forward
     inquirer.prompt(employeeQuestions)
         .then((answers) => {
+
             if (answers.menu !== "I am finished building my team") {
                 //this is a recursive function--- it calls itself to run again and re-prompt the user starting from the menu
                 //as long as the person has not answered that they are finished
-                var newAnswers = addMoreEmployees(employeeQuestions);
-                finalAnswers.push(newAnswers);
+                finalAnswers.push(answers);
+                addMoreEmployees(employeeQuestions);
 
             }
             else {
                 //if after we re-prompt the user they decide that they are done entering their team, then we close the addMoreEmployees() function
-                // console.log(answers);
-                finalAnswers.push(answers);
+                //TODO comment about not pushing
                 console.log(finalAnswers);
-                return;
             }
         });
 }
