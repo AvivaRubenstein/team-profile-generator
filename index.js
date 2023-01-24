@@ -3,7 +3,7 @@ const inquirer = require('inquirer');
 const jest = require('jest');
 //const generateHTML = require('./generateHTML');
 
-const questions = [
+const managerQuestions = [
     //team manager’s name, employee ID, email address, and office number
     {
         type: 'input',
@@ -24,7 +24,9 @@ const questions = [
         type: 'input',
         message: "What is the team manager's office number?",
         name: 'managerOffice',
-    },
+    } ];
+
+const employeeQuestions = [
     {
         type: 'list',  //user selects an option from the list
         message: 'Please select one of the following options: ',
@@ -92,47 +94,28 @@ const questions = [
 // }
 var finalAnswers =[];
 function init() {
-    inquirer.prompt(questions)
+    inquirer.prompt(managerQuestions)
         .then((answers) => {
-            
-            //if the user chooses the option to add an engineer or an intern, when they are done answering the questions 
-            //pertaining to adding that employee, they will be returned to the menu question in the array, 
-            //which again allows them to choose whether to add more employees or be done
-            if (answers.menu !== "I am finished building my team") {
-                // console.log(answers);
-                finalAnswers.push(answers);
-                restartFromMenu(questions);
-                
-                //console.log(finalAnswers);
+            finalAnswers.push(answers);
+            addMoreEmployees(employeeQuestions);
+}); }
 
-            }
-            else {
-                // console.log(answers);
-                finalAnswers.push(answers);
-                
-            }
-                //console.log(finalAnswers);
-                return finalAnswers;
-
-        });
-}
-
-function restartFromMenu(questions) {
-    //we are slicing the questions array, and only re-prompting the user starting from the menu question and forward
-    const startMenu = questions.slice(4);
-    inquirer.prompt(startMenu)
+function addMoreEmployees (employeeQuestions) {
+    //we are only re-prompting the user starting from the menu question and forward
+    inquirer.prompt(employeeQuestions)
         .then((answers) => {
             if (answers.menu !== "I am finished building my team") {
                 //this is a recursive function--- it calls itself to run again and re-prompt the user starting from the menu
                 //as long as the person has not answered that they are finished
-                var restartAnswers = restartFromMenu(questions);
-                finalAnswers.push(restartAnswers);
+                var newAnswers = addMoreEmployees(employeeQuestions);
+                finalAnswers.push(newAnswers);
 
             }
             else {
-                //if after we re-prompt the user they decide that they are done entering their team, then we close the restart function
+                //if after we re-prompt the user they decide that they are done entering their team, then we close the addMoreEmployees() function
                 // console.log(answers);
                 finalAnswers.push(answers);
+                console.log(finalAnswers);
                 return;
             }
         });
