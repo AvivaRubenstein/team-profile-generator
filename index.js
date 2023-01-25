@@ -1,6 +1,10 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const jest = require('jest');
+const Employee = require('./lib/Employee');
+const Engineer = require('./lib/Engineer');
+const Manager = require('./lib/Manager');
+const Intern = require('./lib/Intern');
 //const generateHTML = require('./generateHTML');
 
 const managerQuestions = [
@@ -98,6 +102,18 @@ function init() {
         .then((answers) => {
             finalAnswers.push(answers);
             addMoreEmployees(employeeQuestions);
+            //after we have all of the answers/employees filled into the finalAnswers array, we will loop through each object in the array
+            //and will create an employee object for each of them using the createEmployees() function
+            //each object will be passed in to that function one by one, being called by the variable name employee
+        }).then(() => {
+            var employeeObjects = finalAnswers.map((employee => {
+                createEmployees(employee);
+            }));
+
+            return employeeObjects;
+        }).then((employeeObjects) => {
+
+            console.log(employeeObjects);
         });
 }
 
@@ -115,10 +131,50 @@ function addMoreEmployees(employeeQuestions) {
             }
             else {
                 //if after we re-prompt the user they decide that they are done entering their team, then we close the addMoreEmployees() function
-                //TODO comment about not pushing
-                console.log(finalAnswers);
+                //here we are not pushing anything into finalAnswers because the only answer in the newest iteration of inquirer.prompt is 
+                //that the menu question was answered saying that we are finished --- the answers put in for previous iterations are already pushed in
+                // console.log(finalAnswers);
             }
         });
 }
+//would it be better to use .map to return an array of these new objects???
+function createEmployees(employee) {
+    switch (employee.menu) {
+        case undefined:
+            var manager = new Manager(employee.managerName, employee.managerId, employee.managerEmail, employee.managerOffice);
+            manager.getRole(); //will return "Manager"
+            manager.getName();
+            manager.getId();
+            manager.getEmail();
+            manager.getOfficeNumber();
+
+
+            return manager;
+        case "Add an Engineer":
+            var engineer = new Engineer(employee.engineerName, employee.engineerId, employee.engineerEmail, employee.engineerGithub);
+            engineer.getRole(); //will return "Engineer"
+            engineer.getName();
+            engineer.getId();
+            engineer.getEmail();
+            engineer.getGithub();
+
+
+            return engineer;
+        case "Add an Intern":
+            var intern = new Intern(employee.internName, employee.internId, employee.internEmail, employee.internSchool);
+            intern.getRole(); //will return "Intern"
+            intern.getName();
+            intern.getId();
+            intern.getEmail();
+            intern.getSchool();
+
+
+            return intern;
+    }
+
+}
+
+
+
 
 init();
