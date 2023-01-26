@@ -126,7 +126,7 @@ function addMoreEmployees(employeeQuestions) {
                 
                     finalAnswers.forEach((employee => {
                         createEmployees(employee);
-                        console.log(employees);
+                        //console.log(employees);
                     }));
                     generateHTML.createEmployeeCards(employees);
                     var html = generateHTML.generateHTML(); 
