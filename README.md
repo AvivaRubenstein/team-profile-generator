@@ -13,7 +13,7 @@ You will need to use node on the command line to run "npm install", as this will
 
 ## Usage
 
-To run the project, you will need to enter "node index.js" in the command line.  You will then be prompted to answer questions about your team's manager.  After answering the questions pertaining to the manager, you will be prompted to add more employees.  You can opt to add as many Engineers and Interns as you would like, and will be prompted to answer questions about each employee you add.  When you have completed your team, you can select "I am finished building my team" to finish the process and generate your HTML file.  You can then find your page saved as "index.html" in the team-profile-generator file, and open in in your browser to see how it looks!
+To run the project, you will need to enter "node index.js" in the command line.  You will then be prompted to answer questions about your team's manager.  After answering the questions pertaining to the manager, you will be prompted to add more employees.  You can opt to add as many Engineers and Interns as you would like, and will be prompted to answer questions about each employee you add.  When you have completed your team, you can select "I am finished building my team" to finish the process and generate your HTML file.  You can then find your page saved as "index.html" in the "dist" folder of team-profile-generator directory, and open in in your browser to see how it looks!
 
 To see a video walkthrough of the application, please visit: https://watch.screencastify.com/v/pd6iQqvKM8iIOx0kfbwm 
 

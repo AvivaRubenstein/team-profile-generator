@@ -87,7 +87,7 @@ ${employeeHTML}
 }
 
 function writeToHtml(html){
-fs.writeFile("index.html", html, () => console.log("HTML successfully generated!"));
+fs.writeFile("./dist/index.html", html, () => console.log("HTML successfully generated!"));
 }
 
 module.exports = { generateHTML, createEmployeeCards, writeToHtml };
