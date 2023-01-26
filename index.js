@@ -5,7 +5,8 @@ const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Manager = require('./lib/Manager');
 const Intern = require('./lib/Intern');
-//const generateHTML = require('./generateHTML');
+var employees = [];
+const generateHTML = require('./generateHTML');
 
 const managerQuestions = [
     //team manager’s name, employee ID, email address, and office number
@@ -93,9 +94,7 @@ const employeeQuestions = [
 
 ];
 
-// function writeToHtml(data){
-//     fs.writeFile("index.html", data, () => console.log("HTML successfully generated!"));
-// }
+
 var finalAnswers = [];
 function init() {
     inquirer.prompt(managerQuestions)
@@ -105,15 +104,6 @@ function init() {
             //after we have all of the answers/employees filled into the finalAnswers array, we will loop through each object in the array
             //and will create an employee object for each of them using the createEmployees() function
             //each object will be passed in to that function one by one, being called by the variable name employee
-        }).then(() => {
-            var employeeObjects = finalAnswers.map((employee => {
-                createEmployees(employee);
-            }));
-
-            return employeeObjects;
-        }).then((employeeObjects) => {
-
-            console.log(employeeObjects);
         });
 }
 
@@ -133,11 +123,18 @@ function addMoreEmployees(employeeQuestions) {
                 //if after we re-prompt the user they decide that they are done entering their team, then we close the addMoreEmployees() function
                 //here we are not pushing anything into finalAnswers because the only answer in the newest iteration of inquirer.prompt is 
                 //that the menu question was answered saying that we are finished --- the answers put in for previous iterations are already pushed in
-                // console.log(finalAnswers);
+                
+                    finalAnswers.forEach((employee => {
+                        createEmployees(employee);
+                        console.log(employees);
+                    }));
+                    generateHTML.createEmployeeCards(employees);
+                    var html = generateHTML.generateHTML(); 
+                    generateHTML.writeToHtml(html);
             }
         });
 }
-//would it be better to use .map to return an array of these new objects???
+//this function creates instances of the Employee class based on the user's answers
 function createEmployees(employee) {
     switch (employee.menu) {
         case undefined:
@@ -147,7 +144,8 @@ function createEmployees(employee) {
             manager.getId();
             manager.getEmail();
             manager.getOfficeNumber();
-
+            // console.log(manager);
+            employees.push(manager);
 
             return manager;
         case "Add an Engineer":
@@ -157,7 +155,8 @@ function createEmployees(employee) {
             engineer.getId();
             engineer.getEmail();
             engineer.getGithub();
-
+            // console.log(engineer);
+            employees.push(engineer);
 
             return engineer;
         case "Add an Intern":
@@ -167,14 +166,13 @@ function createEmployees(employee) {
             intern.getId();
             intern.getEmail();
             intern.getSchool();
-
+            // console.log(intern);
+            employees.push(intern);
 
             return intern;
     }
 
 }
-
-
 
 
 init();

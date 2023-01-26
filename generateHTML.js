@@ -1,41 +1,60 @@
-function createEmployee(answers){
-    //<!-- employee cards will be added according to how many employees are added -->
-    //TODO set up all employees to be in an array of employee objects, 
-    //and loop through each one and create the HTML for that employee to be added 
-    //to the full HTML doc
+const fs = require('fs');
+var employeeHTML = '';
+function createEmployeeCards(employees) {
+  //<!-- employee cards will be added according to how many employees are added -->
+  //TODO set up all employees to be in an array of employee objects, 
+  //and loop through each one and create the HTML for that employee to be added 
+  //to the full HTML doc
 
-    //TODO use conditional logic to check what kind of employee each employee is, and 
-    //depending on what type they are, return the property that is unique to them
-    //and insert that as the bottom item of their employee card
-    
-    return `
+  //TODO use conditional logic to check what kind of employee each employee is, and 
+  //depending on what type they are, return the property that is unique to them
+  //and insert that as the bottom item of their employee card
+
+  employees.forEach((employee => {
+    var role = employee.getRole();
+    var uniqueAttr;
+    if (role === "Manager") {
+      uniqueAttr = `Office Number: ${employee.officeNumber}`;
+    } else if (role === "Engineer") {
+      uniqueAttr = `Github Account: ${employee.github}`;
+    } else if (role === "Intern") {
+      uniqueAttr = `School: ${employee.school}`;
+    }
+
+    var employeeCardHTML = `
     <div class = "container">
         <div class = "row">
             <div class = "col-12 col-md-6 col-lg-4">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
+        <!-- Employee role goes here -->
+          <h5 class="card-title"> ${role}</h5>
         <!-- Employee name goes here -->
-          <h5 class="card-title"> ${}</h5>
-        <!-- Employee position goes here -->
-          <p class="card-text">${}</p>
+          <p class="card-text">${employee.name}</p>
         </div>
         <ul class="list-group list-group-flush">
         <!-- id, email, other info -->
-          <li class="list-group-item">An item</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
+          <li class="list-group-item">${employee.id}</li>
+          <li class="list-group-item">${employee.email}</li>
+          <li class="list-group-item">${uniqueAttr}</li>
         </ul>
         <div class="card-body">
         </div>
       </div>
     </div>
     </div>
-    </div> `;
+    </div> 
+    `;
 
+    employeeHTML = employeeHTML.concat(employeeCardHTML);
+  })
+  );
 }
-function generateHTML(answers) {
 
-    return `
+
+function generateHTML() {
+
+  return `
     <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -54,9 +73,7 @@ function generateHTML(answers) {
           </div>
        
       </nav>
-
-
-
+${employeeHTML}
 
     </div>
 
@@ -67,4 +84,8 @@ function generateHTML(answers) {
 ` ;
 }
 
-module.exports = generateHTML;
+function writeToHtml(html){
+fs.writeFile("index.html", html, () => console.log("HTML successfully generated!"));
+}
+
+module.exports = { generateHTML, createEmployeeCards, writeToHtml };
