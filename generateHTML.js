@@ -16,14 +16,13 @@ function createEmployeeCards(employees) {
     if (role === "Manager") {
       uniqueAttr = `Office Number: ${employee.officeNumber}`;
     } else if (role === "Engineer") {
-      uniqueAttr = `Github Account: ${employee.github}`;
+//this will be a clickable link to github profile
+      uniqueAttr = `<a href="https://github.com/${employee.github}">Github Account:  ${employee.github}</a>`;
     } else if (role === "Intern") {
       uniqueAttr = `School: ${employee.school}`;
     }
 
     var employeeCardHTML = `
-    <div class = "container">
-        <div class = "row">
             <div class = "col-12 col-md-6 col-lg-4">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
@@ -35,15 +34,14 @@ function createEmployeeCards(employees) {
         <ul class="list-group list-group-flush">
         <!-- id, email, other info -->
           <li class="list-group-item">${employee.id}</li>
-          <li class="list-group-item">${employee.email}</li>
+          <li class="list-group-item"><a href="mailto:${employee.email}">${employee.email}</a></li>
           <li class="list-group-item">${uniqueAttr}</li>
         </ul>
         <div class="card-body">
         </div>
       </div>
     </div>
-    </div>
-    </div> 
+    
     `;
 
     employeeHTML = employeeHTML.concat(employeeCardHTML);
@@ -73,7 +71,11 @@ function generateHTML() {
           </div>
        
       </nav>
+    <div class = "container">
+    <div class = "row">
 ${employeeHTML}
+    </div>
+    </div> 
 
     </div>
 
